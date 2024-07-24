@@ -44,8 +44,18 @@ class CarRetrieveUpdateDestroyView(APIView):
         car.save()
         return Response(model_to_dict(car), status.HTTP_200_OK)
 
-    # def patch(self, *args, **kwargs):
-    #     return Response('hello from patch')
+    def patch(self, *args, **kwargs):
+        pk = kwargs['pk']
+        data = self.request.data
+        try:
+            car = CarModel.objects.get(pk=pk)
+        except CarModel.DoesNotExist:
+            return Response('not found', status.HTTP_404_NOT_FOUND)
+
+        for key, value in car:
+            setattr(car, key, value)
+
+        return Response(model_to_dict(car), status.HTTP_200_OK)
 
     def delete(self, *args, **kwargs):
         pk = kwargs['pk']
