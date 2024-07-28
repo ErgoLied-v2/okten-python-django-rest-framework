@@ -2,12 +2,13 @@ from django.forms import model_to_dict
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 
 from first.models import CarModel
 from first.serializers import CarSerializer
 
 
-class CarListCreateView(APIView):
+class CarListCreateView(GenericAPIView):
     def get(self, *args, **kwargs):
         cars = CarModel.objects.all()
         # res = [model_to_dict(car) for car in cars]
@@ -26,7 +27,7 @@ class CarListCreateView(APIView):
         return Response(serializer.data, status.HTTP_201_CREATED)
 
 
-class CarRetrieveUpdateDestroyView(APIView):
+class CarRetrieveUpdateDestroyView(GenericAPIView):
     def get(self, *args, **kwargs):
         pk = kwargs['pk']
         try:
