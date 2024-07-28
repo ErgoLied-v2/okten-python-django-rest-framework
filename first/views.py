@@ -4,19 +4,26 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from first.models import CarModel
+from first.serializers import CarSerializer
 
 
 class CarListCreateView(APIView):
     def get(self, *args, **kwargs):
         cars = CarModel.objects.all()
-        res = [model_to_dict(car) for car in cars]
-        return Response(res, status.HTTP_200_OK)
+        # res = [model_to_dict(car) for car in cars]
+        serializer = CarSerializer(cars, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)
 
     def post(self, *args, **kwargs):
         data = self.request.data
-        car = CarModel.objects.create(**data)
-        res = model_to_dict(car)
-        return Response(res, status.HTTP_201_CREATED)
+        serializer = CarSerializer(data=data)
+
+        # if not serializer.is_valid():
+        #     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_201_CREATED)
 
 
 class CarRetrieveUpdateDestroyView(APIView):
@@ -26,8 +33,8 @@ class CarRetrieveUpdateDestroyView(APIView):
             car = CarModel.objects.get(pk=pk)
         except CarModel.DoesNotExist:
             return Response('not found', status.HTTP_404_NOT_FOUND)
-
-        return Response(model_to_dict(car), status.HTTP_200_OK)
+        serializer = CarSerializer(car)
+        return Response(serializer.data, status.HTTP_200_OK)
 
     def put(self, *args, **kwargs):
         pk = kwargs['pk']
@@ -38,11 +45,10 @@ class CarRetrieveUpdateDestroyView(APIView):
         except CarModel.DoesNotExist:
             return Response('not found', status.HTTP_404_NOT_FOUND)
 
-        car.brand = data['brand']
-        car.price = data['price']
-        car.year = data['year']
-        car.save()
-        return Response(model_to_dict(car), status.HTTP_200_OK)
+        serializer = CarSerializer(car, data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
 
     def patch(self, *args, **kwargs):
         pk = kwargs['pk']
@@ -52,10 +58,11 @@ class CarRetrieveUpdateDestroyView(APIView):
         except CarModel.DoesNotExist:
             return Response('not found', status.HTTP_404_NOT_FOUND)
 
-        for key, value in car:
-            setattr(car, key, value)
+        serializer = CarSerializer(car, data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
-        return Response(model_to_dict(car), status.HTTP_200_OK)
+        return Response(serializer.data, status.HTTP_200_OK)
 
     def delete(self, *args, **kwargs):
         pk = kwargs['pk']
