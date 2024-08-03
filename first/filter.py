@@ -3,6 +3,7 @@ from django.http import QueryDict
 from rest_framework.exceptions import ValidationError
 
 from first.models import CarModel
+from first.serializers import CarSerializer
 
 
 def car_filter(query: QueryDict) -> QuerySet:
@@ -44,10 +45,13 @@ def car_filter(query: QueryDict) -> QuerySet:
             case 'brand_contains':
                 queryset = queryset.filter(brand__contains=value)
 
-            case 'sort_by':
-                queryset = queryset.order_by(f'{value}')
-            case 'sort_by_desc':
-                queryset = queryset.order_by(f'-{value}')
+            case 'sort':
+                fields = CarSerializer.Meta.fields
+                fields = [*fields, *[f'-{field}' for field in fields]]
+
+                if value not in fields:
+                    raise ValidationError({'details': f'choose order from {", ".join(fields)}'})
+                queryset = queryset.order_by(value)
 
             case _:
                 raise ValidationError(f"Filter {key} not supported")
