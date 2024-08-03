@@ -34,7 +34,10 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
-    'first'
+
+    # My apps
+    'core',
+    'first',
 ]
 
 MIDDLEWARE = [
