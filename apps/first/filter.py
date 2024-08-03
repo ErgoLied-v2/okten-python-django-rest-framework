@@ -2,8 +2,8 @@ from django.db.models import QuerySet
 from django.http import QueryDict
 from rest_framework.exceptions import ValidationError
 
-from first.models import CarModel
-from first.serializers import CarSerializer
+from apps.first.models import CarModel
+from apps.first.serializers import CarSerializer
 
 
 def car_filter(query: QueryDict) -> QuerySet:

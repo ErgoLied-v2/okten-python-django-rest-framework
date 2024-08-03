@@ -1,10 +1,8 @@
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, UpdateModelMixin, DestroyModelMixin, \
-    RetrieveModelMixin
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
-from first.filter import car_filter
-from first.models import CarModel
-from first.serializers import CarSerializer
+from apps.first.filter import car_filter
+from apps.first.models import CarModel
+from apps.first.serializers import CarSerializer
 
 
 class CarListCreateView(ListCreateAPIView):
@@ -48,12 +46,3 @@ class CarRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 #
 #     def delete(self, request, *args, **kwargs):
 #         return super().destroy(request, *args, **kwargs)
-
-
-
-
-
-
-
-
-
