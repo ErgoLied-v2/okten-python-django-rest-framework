@@ -7,7 +7,7 @@ from apps.cars.models import CarModel
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
-        fields = ('id', 'brand', 'price', 'year', 'body_type', 'created_at', 'updated_at',)
+        fields = ('id', 'brand', 'price', 'year', 'body_type', 'photo', 'created_at', 'updated_at',)
 
     def validate(self, data):
         if data['price'] == data['year']:
@@ -18,3 +18,10 @@ class CarSerializer(serializers.ModelSerializer):
         if year == 2020:
             raise ValidationError({'details': 'Year must be not 2020'})
         return year
+
+
+class CarPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarModel
+        fields = ('photo',)
+        extra_kwargs = {'photo': {'required': True}}

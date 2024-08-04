@@ -1,9 +1,9 @@
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from apps.cars.filter import CarFilter
 from apps.cars.models import CarModel
-from apps.cars.serializers import CarSerializer
+from apps.cars.serializers import CarPhotoSerializer, CarSerializer
 
 
 class CarListView(ListAPIView):
@@ -25,4 +25,18 @@ class CarRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         if self.request.method == 'DELETE':
             return (IsAuthenticated(),)
         return (AllowAny(),)
+
+
+class CarAddPhotoView(UpdateAPIView):
+    serializer_class = CarPhotoSerializer
+    permission_classes = (AllowAny,)
+    queryset = CarModel.objects.all()
+    http_method_names = ('put',)
+
+    def perform_update(self, serializer):
+        car = self.get_object()
+        car.photo.delete()
+        super().perform_update(serializer)
+
+
 
