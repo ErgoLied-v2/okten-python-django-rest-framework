@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from apps.auto_parks.models import AutoParkModel
 from apps.auto_parks.serializers import AutoParksSerializer
-from apps.first.serializers import CarSerializer
+from apps.cars.serializers import CarSerializer
 
 
 class AutoParkListCreateView(ListCreateAPIView):

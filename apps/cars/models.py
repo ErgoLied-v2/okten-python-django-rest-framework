@@ -4,7 +4,7 @@ from django.db import models
 from core.models import BaseModel
 
 from apps.auto_parks.models import AutoParkModel
-from apps.first.choices.body_type_choices import BodyTypeChoices
+from apps.cars.choices.body_type_choices import BodyTypeChoices
 
 
 class CarModel(BaseModel):

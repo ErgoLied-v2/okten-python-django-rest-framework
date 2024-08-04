@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 
-from apps.first.models import CarModel
+from apps.cars.models import CarModel
 
 
 class CarSerializer(serializers.ModelSerializer):

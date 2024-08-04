@@ -1,8 +1,8 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
-from apps.first.filter import CarFilter
-from apps.first.models import CarModel
-from apps.first.serializers import CarSerializer
+from apps.cars.filter import CarFilter
+from apps.cars.models import CarModel
+from apps.cars.serializers import CarSerializer
 
 
 class CarListCreateView(ListCreateAPIView):
