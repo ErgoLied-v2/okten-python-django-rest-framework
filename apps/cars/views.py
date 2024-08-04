@@ -1,6 +1,5 @@
-from rest_framework import permissions
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from apps.cars.filter import CarFilter
 from apps.cars.models import CarModel
@@ -9,10 +8,9 @@ from apps.cars.serializers import CarSerializer
 
 class CarListView(ListAPIView):
     serializer_class = CarSerializer
-    # queryset = CarModel.objects.less_than_year(2077).only_brand('vw')
     queryset = CarModel.objects.all()
     filterset_class = CarFilter
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def get_queryset(self):
         print('IS LOGGED IN:', self.request.user.profile.first_name, self.request.user.profile.last_name)
