@@ -7,7 +7,8 @@ from apps.cars.serializers import CarSerializer
 
 class CarListView(ListAPIView):
     serializer_class = CarSerializer
-    queryset = CarModel.objects.less_than_year(2077).only_brand('vw')
+    # queryset = CarModel.objects.less_than_year(2077).only_brand('vw')
+    queryset = CarModel.objects.all()
     filterset_class = CarFilter
 
 
