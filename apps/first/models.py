@@ -3,6 +3,7 @@ from django.db import models
 
 from core.models import BaseModel
 
+from apps.auto_parks.models import AutoParkModel
 from apps.first.choices.body_type_choices import BodyTypeChoices
 
 
@@ -15,3 +16,4 @@ class CarModel(BaseModel):
     price = models.IntegerField(validators=(V.MinValueValidator(0), V.MaxValueValidator(99_999),))
     year = models.IntegerField(validators=(V.MinValueValidator(1990), V.MaxValueValidator(2090),))
     body_type = models.CharField(max_length=10, choices=BodyTypeChoices.choices)
+    auto_park = models.ForeignKey(AutoParkModel, on_delete=models.CASCADE, related_name='cars')
