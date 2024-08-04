@@ -9,6 +9,7 @@ from apps.first.choices.body_type_choices import BodyTypeChoices
 class CarModel(BaseModel):
     class Meta:
         db_table = 'cars'
+        ordering = ('id',)
 
     brand = models.CharField(max_length=10, validators=(V.MinLengthValidator(2),))
     price = models.IntegerField(validators=(V.MinValueValidator(0), V.MaxValueValidator(99_999),))
