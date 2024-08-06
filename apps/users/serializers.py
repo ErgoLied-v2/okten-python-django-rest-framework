@@ -3,6 +3,8 @@ from django.db.transaction import atomic
 
 from rest_framework import serializers
 
+from core.services.email_service import EmailService
+
 from apps.users.models import ProfileModel
 
 UserModel = get_user_model()
@@ -56,5 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         user.save()
         ProfileModel.objects.create(user=user, **profile)
+
+        EmailService.registrate_email(user)
 
         return user
