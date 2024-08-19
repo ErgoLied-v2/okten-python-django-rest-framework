@@ -1,7 +1,11 @@
+from django.utils.decorators import method_decorator
+
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+
+from drf_yasg.utils import swagger_auto_schema
 
 from core.services.email_service import EmailService
 
@@ -10,7 +14,11 @@ from apps.cars.models import CarModel
 from apps.cars.serializers import CarPhotoSerializer, CarSerializer
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(security=[], operation_summary='get all cars'))
 class CarListView(ListAPIView):
+    """
+    Get all cars
+    """
     serializer_class = CarSerializer
     queryset = CarModel.objects.all()
     filterset_class = CarFilter
@@ -22,6 +30,16 @@ class CarListView(ListAPIView):
 
 
 class CarRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    """
+    get:
+        Get car details
+    put:
+        Update car
+    patch:
+        Partial update car
+    delete:
+        Delete car
+    """
     serializer_class = CarSerializer
     queryset = CarModel.objects.all()
 
@@ -41,11 +59,3 @@ class CarAddPhotoView(UpdateAPIView):
         car = self.get_object()
         car.photo.delete()
         super().perform_update(serializer)
-
-
-# class TestEmailView(GenericAPIView):
-#     permission_classes = (AllowAny,)
-#
-#     def get(self, *args, **kwargs):
-#         EmailService.send_test()
-#         return Response(status=status.HTTP_204_NO_CONTENT)

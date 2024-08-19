@@ -12,6 +12,7 @@ function App() {
 
     return (
         <div className="App">
+            <h1>Cars</h1>
             {cars.map(car => <div key={car.id}>
                 {car.id} - {car.brand} - {car.price}$
             </div>)}

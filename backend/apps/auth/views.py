@@ -18,6 +18,9 @@ UserModel = get_user_model()
 class ActivateUserView(GenericAPIView):
     permission_classes = (AllowAny,)
 
+    def get_serializer_class(self):
+        pass
+
     def patch(self, *args, **kwargs):
         token = kwargs['token']
         user = JWTService.verify_token(token, ActivateToken)
