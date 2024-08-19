@@ -16,9 +16,9 @@ class CarListView(ListAPIView):
     filterset_class = CarFilter
     permission_classes = (AllowAny,)
 
-    def get_queryset(self):
-        print('IS LOGGED IN:', self.request.user.profile.first_name, self.request.user.profile.last_name)
-        return super().get_queryset()
+    # def get_queryset(self):
+    #     print('IS LOGGED IN:', self.request.user.profile.first_name, self.request.user.profile.last_name)
+    #     return super().get_queryset()
 
 
 class CarRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
