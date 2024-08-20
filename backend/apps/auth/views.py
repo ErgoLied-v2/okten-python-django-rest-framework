@@ -2,12 +2,12 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, get_object_or_404
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from core.dataclasses.user_dataclass import User
 from core.services.email_service import EmailService
-from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
+from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken, SocketToken
 
 from apps.auth.serializers import EmailSerializer, PasswordSerializer
 from apps.users.serializers import UserSerializer
@@ -58,3 +58,11 @@ class RecoveryPasswordView(GenericAPIView):
         user.save()
 
         return Response({'detail': 'pwd has been changed'}, status.HTTP_200_OK)
+
+
+class SocketView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, *args, **kwargs):
+        token = JWTService.create_token(self.request.user, SocketToken)
+        return Response({'token': str(token)}, status.HTTP_200_OK)

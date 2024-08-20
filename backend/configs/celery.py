@@ -13,7 +13,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'send_notification_every_min': {
         'task': 'core.services.email_service.notification',
-        'schedule': crontab()
+        'schedule': crontab(day_of_month='2')
         # 'args': (,)
     }
 }

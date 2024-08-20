@@ -1,4 +1,5 @@
 from .celery_config import *
+from .channels_config import *
 from .drf_yasg_config import *
 from .email_config import *
 from .jwt_config import *

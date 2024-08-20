@@ -51,13 +51,13 @@ class EmailService:
 
     # SEND NOTIFICATION SPAM
 
-    # @staticmethod
-    # @app.task
-    # def notification():
-    #     for user in UserModel.objects.all():
-    #         EmailService.__send_email(
-    #             user.email,
-    #             'notification.html',
-    #             {'name': user.profile.first_name},
-    #             'Notification'
-    #         )
+    @staticmethod
+    @app.task
+    def notification():
+        for user in UserModel.objects.all():
+            EmailService.__send_email(
+                user.email,
+                'notification.html',
+                {'name': user.profile.first_name},
+                'Notification'
+            )
