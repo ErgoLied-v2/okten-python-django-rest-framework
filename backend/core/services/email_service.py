@@ -1,12 +1,16 @@
 import os
 
+from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
+from django.db.models import Model
 from django.template.loader import get_template
 
 from configs.celery import app
 
 from core.dataclasses.user_dataclass import User
 from core.services.jwt_service import ActivateToken, JWTService, RecoveryToken
+
+UserModel: User | Model = get_user_model()
 
 
 class EmailService:
@@ -44,3 +48,16 @@ class EmailService:
             {'name': user.profile.first_name + ' ' + user.profile.last_name, 'url': url},
             'Recovery pwd'
         )
+
+    # SEND NOTIFICATION SPAM
+
+    # @staticmethod
+    # @app.task
+    # def notification():
+    #     for user in UserModel.objects.all():
+    #         EmailService.__send_email(
+    #             user.email,
+    #             'notification.html',
+    #             {'name': user.profile.first_name},
+    #             'Notification'
+    #         )
